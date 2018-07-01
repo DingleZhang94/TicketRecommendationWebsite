@@ -13,9 +13,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import db.DBConnection;
+import db.DBConnectionFactory;
 import entity.Item;
 import external.TicketMasterAPI;
-import sun.misc.GC.LatencyRequest;
 
 /**
  * Servlet implementation class SearchItem
@@ -45,10 +46,17 @@ public class SearchItem extends HttpServlet {
 			lon = Double.parseDouble(request.getParameter("lon"));
 		}
 		
-		String keyword = request.getParameter("term");
-		
-		TicketMasterAPI tmAPI = new TicketMasterAPI();
-		List<Item> items = tmAPI.search(lat, lon, keyword);
+		String keyword = request.getParameter("keyword");
+		List<Item> items = null;
+		DBConnection connection = null;
+		try {
+		connection = DBConnectionFactory.getConnection();
+		items = connection.searchItems(lat, lon, keyword);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			connection.close();
+		}
 		JSONArray array = new JSONArray();
 		try {
 			for(Item item : items) {
