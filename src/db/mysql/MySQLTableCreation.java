@@ -78,7 +78,7 @@ public class MySQLTableCreation {
 					+ "user_id VARCHAR(255) NOT NULL,"
 					+ "item_id VARCHAR(255) NOT NULL,"
 					+ "last_favor_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,"
-					+ "PRIMARY KEY(item_id, user_id),"
+					+ "PRIMARY KEY(item_id, user_id),"  
 					+ "FOREIGN KEY (item_id) references items(item_id),"
 					+ "FOREIGN KEY (user_id) references users(user_id)"
 					+ ");";
