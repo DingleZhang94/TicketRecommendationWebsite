@@ -54,7 +54,7 @@ public class TicketMasterAPI {
 		String geoHash = GeoHash.encodeGeohash(lat, lon, 8);
 
 		// query string for request
-		String query = String.format("apikey=%s&geoPoint=%s&keyword=%s&radius=%s", API_KEY, geoHash, keyword, 50);
+		String query = String.format("apikey=%s&geoPoint=%s&keyword=%s&radius=%s", API_KEY, geoHash, keyword, 150);
 
 		try {
 			// connect to the server

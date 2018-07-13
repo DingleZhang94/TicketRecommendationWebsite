@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Ticketor</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,70" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <link rel="stylesheet" href="./styles/main.css" type="text/css">
+</head>
+
+<body>
+    <header class="top-header">
+        <nav class="top-nav">
+            <a href="./index.html">Home</a>
+            <a href="./contact.html">Contact</a>
+            <a href="#">About</a>
+        </nav>
+        <span id="welcome-msg">Welcome! <strong>Dingle Zhang</strong></span>
+        <i class="avatar fa fa-user fa-2px"></i>
+    </header>
+
+    <header class="top-pic">
+        <p><span>Item</span><br>Recommendation</p>
+    </header>
+    <section class="container">
+        <aside id="content-nav">
+                <div id="content-nav-icon">
+                    <i class="fas fa-infinity fa-5x"></i>
+                </div>
+                <nav>
+                    <a href="#" id = "nearby-btn" class="content-nav-btn active"><i class="fa fa-map-marker"></i>Nearby</a>
+                    <a href="#" id = "fav-btn" class="content-nav-btn"><i class="fa fa-heart"></i>My Favorites</a>
+                    <a href="#" id = "rec-btn" class="content-nav-btn"><i class="fa fa-thumbs-up"></i>Recommendation</a>
+                </nav>
+        </aside>
+
+        <ul id="item-list">
+            <li class="item">
+                <img src="http://www.latimes.com/resizer/REEy376-ZBuWabL6FWJqQKZ4Fjk=/1400x0/arc-anglerfish-arc2-prod-tronc.s3.amazonaws.com/public/CJGWAUKQDFCQNEOWTQUMHJJZGM.jpg" alt="">
+                <div>
+                    <a class="item-name" href="#">Coldplay Concert</a>
+                    <p class="item-category">Slow Rock | Pop</p>
+                </div>
+                <p class="item-addr">699 Calderon Ave<br/>Mountain View<br/> CA</p>
+                <div class="like">
+                    <i class="fa fa-heart"></i>
+                </div>
+            </li>
+            <li class="item">
+                <img src="https://s3-media3.fl.yelpcdn.com/bphoto/EmBj4qlyQaGd9Q4oXEhEeQ/ms.jpg" alt="">
+                <div>
+                    <a class="item-name" href="#">Sichuan item</a>
+                    <p class="item-category">Vegetarian</p>
+                </div>
+                <p class="item-addr">1900 S Ead St<br/>Arlington<br/>VA</p>
+                <div class="like">
+                    <i class="fa fa-heart"></i>
+                </div>
+            </li>
+            <li class="item">
+                <img src="https://s3-media3.fl.yelpcdn.com/bphoto/EmBj4qlyQaGd9Q4oXEhEeQ/ms.jpg" alt="">
+                <div>
+                    <a class="item-name" href="#">Sichuan item</a>
+                    <p class="item-category">Vegetarian</p>
+                </div>
+                <p class="item-addr">699 Calderon Ave<br/>Mountain View<br/> CA</p>
+                <div class="like">
+                    <i class="fa fa-heart"></i>
+                </div>
+            </li>
+        </ul>
+    </section>
+
+    <footer class="footer">
+        <p>What we do</p>
+        <p>"Help you find the best place around."</p>
+        <ul>
+            <li>
+                <p><i class="fas fa-map-marker-alt fa-2x"></i></p>
+                <p>1900 S Eads St, Arlington, VA</p>
+            </li>
+            <li>
+                <p><i class="fas fa-envelope fa-2x"></i></p>
+                <p>Dingle.zhang@gmail.com</p>
+            </li>
+            <li>
+                <p><i class="fa fa-phone fa-2x"></i></p>
+                <p>+1 (202) 709-0390</p>
+            </li>
+        </ul>
+    </footer>
+
+    <script src = "./scripts/main.js"></script>
+</body>
+
+</html>

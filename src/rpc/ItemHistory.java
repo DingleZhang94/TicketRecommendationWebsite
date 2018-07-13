@@ -3,6 +3,7 @@ package rpc;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,6 +16,7 @@ import org.json.JSONObject;
 
 import db.DBConnection;
 import db.DBConnectionFactory;
+import entity.Item;
 
 /**
  * Servlet implementation class ItemHistory
@@ -37,28 +39,53 @@ public class ItemHistory extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		String userId = request.getParameter("user_id");
+		JSONArray array = new JSONArray();
+		
+		DBConnection conn =DBConnectionFactory.getConnection();
+		
+		
+		try {
+			Set<Item> items = conn.getFavoriteItems(userId);
+			for (Item item : items) {
+				JSONObject obj= item.toJSONObject();
+				
+				// add "favorite" attribute to help front end design
+				obj.put("favorite", true);
+				array.put(obj);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			conn.close();
+		}
+		
+		RpcHelper.writeJsonArray(response, array);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
+	 * @return JSONOBject {
+	 * 						result: "Success".
+	 * 						}
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		DBConnection conn = DBConnectionFactory.getConnection();
+		
 		try {
 			JSONObject input = RpcHelper.readJsonObject(request);
 			String userId = input.getString("user_id");
 
-			JSONArray array = input.getJSONArray("favorite");
+			String item_id = input.getString("favorite"); 
 			List<String> itemIds = new ArrayList<>();
-			for (int i = 0; i < array.length(); i++) {
-				itemIds.add(array.getString(i));
-			}
+			itemIds.add(item_id);
+
 			conn.setFavoriteItems(userId, itemIds);
-			RpcHelper.writeJsonObject(response, new JSONObject().put("result", "Sucesss"));
+			
+			RpcHelper.writeJsonObject(response, new JSONObject().put("result", "Success"));
+			System.out.println("do post" + item_id);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -72,17 +99,20 @@ public class ItemHistory extends HttpServlet {
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		DBConnection conn = DBConnectionFactory.getConnection();
+		
 		try {
 			JSONObject input = RpcHelper.readJsonObject(request);
 			String userId = input.getString("user_id");
 
-			JSONArray array = input.getJSONArray("favorite");
+			String item_id = input.getString("favorite");
 			List<String> itemIds = new ArrayList<>();
-			for (int i = 0; i < array.length(); i++) {
-				itemIds.add(array.getString(i));
-			}
+			
+			itemIds.add(item_id);
+			
 			conn.unsetFavoriteItems(userId, itemIds);
-			RpcHelper.writeJsonObject(response, new JSONObject().put("result", "Sucesss"));
+			
+			RpcHelper.writeJsonObject(response, new JSONObject().put("result", "Success"));
+			System.out.println("Do delete");
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
