@@ -14,6 +14,10 @@ import entity.Item;
 import entity.Item.ItemBuilder;
 import external.TicketMasterAPI;
 
+/**
+ * @author dingle
+ *
+ */
 public class MySQLConnection implements DBConnection {
 	
 	private Connection conn;
@@ -32,6 +36,7 @@ public class MySQLConnection implements DBConnection {
 		}
 		return saveItemStmt;
 	}
+	
 	public MySQLConnection() {
 		super();
 		
@@ -145,7 +150,7 @@ public class MySQLConnection implements DBConnection {
 				// create a item to store the information
 				ItemBuilder builder = new ItemBuilder();
 				
-				// Java iterator, next() is boolean if the next position is not null.
+				// Java iterator, next() is true if the next position is not null.
 				while (rs.next()) {
 					builder.setItemId(rs.getString("item_id"));
 					builder.setName(rs.getString("name"));
@@ -239,14 +244,82 @@ public class MySQLConnection implements DBConnection {
 
 	@Override
 	public String getFullname(String userId) {
-		// TODO Auto-generated method stub
+		if(conn == null) {
+			System.out.println("DB Connection failed!");
+			return null;
+		}
+		try {
+			String sql = "SELECT first_name, last_name FROM users WHERE user_id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, userId);
+			ResultSet resultSet = stmt.executeQuery();
+			return String.join(" ", resultSet.getString("first_name"), resultSet.getString("last_name"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return null;
 	}
 
 	@Override
 	public boolean verifyLogin(String userId, String password) {
-		// TODO Auto-generated method stub
+		if (conn == null) {
+			System.out.println("DB Connection failed!");
+			return false;
+		}
+		try {
+			String sql = "SELECT user_id FROM users WHERE user_id = ? AND password = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, userId);
+			stmt.setString(2, password);
+			ResultSet rs = stmt.executeQuery();
+			return  rs.getString("user_id") != null;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return false;
+	}
+	
+	
+	
+
+	public int registerUser(String userId, String password, String firstName, String lastName) {
+		if (conn == null) {
+			System.out.println("DB Connection failed!");
+			return 3;
+		}
+		try {
+			// check invalid input
+			if(userId == null || userId.length() == 0 ||
+					password == null || password.length() == 0 ||
+					firstName == null || firstName.length() == 0 ||
+					lastName == null || lastName.length() == 0 ) return 1;
+			
+			// check duplicate
+			String sql  = "SELECT user_id FROM users WHERE user_id = ?";
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setString(1, userId);
+			ResultSet rs = statement.executeQuery();
+			if (rs.next()) {
+				return 2;
+			}
+			
+			
+			sql = "INSERT INTO users VALUES (?,?,?,?)";
+			statement = conn.prepareStatement(sql);
+			statement.setString(1, userId);
+			statement.setString(2, password);
+			statement.setString(3, firstName);
+			statement.setString(4, lastName);
+			statement.execute();
+			return 0;
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 3;
 	}
 
 }

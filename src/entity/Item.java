@@ -76,7 +76,6 @@ public class Item {
 			obj.put("distance", distance);
 			obj.put("url", url);
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		return obj;

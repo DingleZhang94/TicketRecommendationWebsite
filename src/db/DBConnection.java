@@ -88,6 +88,23 @@ public interface DBConnection extends AutoCloseable{
 	 * @return boolean
 	 */
 	public boolean verifyLogin(String userId, String password);
+	
+	/**
+	 * 
+	 * 
+	 * @param userId (Nullable)
+	 * @param password (Nullable)
+	 * @param firstName (Nullable)
+	 * @param lastName (Nullable)
+	 * @return int: 0 - success
+	 * 				1 - invalid input 
+	 * 				2 - duplicate users
+	 * 				3 - server error
+	 * 
+	 * 
+	 * 
+	 */
+	public int registerUser(String userId, String password, String firstName, String lastName);
 }
 
 

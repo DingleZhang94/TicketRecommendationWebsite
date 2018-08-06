@@ -25,14 +25,10 @@ body {
     display: flex;
     align-items: center;
     position: fixed;
-    z-index: 2;
+    z-index: 100;
     background: rgba(232, 76, 61, 0.95);
     opacity: 60%;
     box-shadow: 0px 2px 10px #333;
-}
-
-.top-header span {
-    display: block;
 }
 
 .avatar {
@@ -78,14 +74,46 @@ body {
     box-shadow: 0px 0px 10px black;
 }
 
+
+#card h1{
+    padding: 20px;
+}
+
+#card span{
+    margin-left: 20px;
+}
+
+.name{
+    font-weight: bold;
+    height: 200px;
+    text-align: center;
+    padding-top: 150px;
+    font-size: 40px;
+    font-family: font-family: 'Slabo 27px', serif;
+}
+
+.flex{
+    display: flex;
+    height: 200px;
+}
+
+.element{
+    font-family: 'Roboto', sans-serif;
+    line-height: 20px;
+    font-size: 15px;
+    padding-top: 120px;
+    margin-left: 15px;
+}
+
 #card {
     height: 400px;
-    width: 70%;
-    z-index: 2;
+    width: 600px;
+    z-index: 1;
+    color:white;
     margin: 0 auto;
     box-shadow: 0px 0px 10px black;
     border-radius: 20px;
-    background: rgba(254, 254, 254, 0.5);
+    background: rgb(15, 15, 15);
 }
 
 .footer {
@@ -96,6 +124,14 @@ body {
     align-items: center;
     display: flex;
     flex-direction: column;
+}
+
+#login{
+    cursor: pointer;
+}
+
+#login:hover{
+    color: #333;
 }
 
 .footer ul {
@@ -117,3 +153,4 @@ body {
 .footer ul li p {
     margin: 3%;
 }
+

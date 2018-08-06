@@ -3,12 +3,18 @@ package rpc;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+
 
 public class RpcHelper {
 	
@@ -50,5 +56,13 @@ public class RpcHelper {
 			e.printStackTrace();
 		} 
 		return new JSONObject();
+	}
+	
+	public static void printRequestPara(HttpServletRequest request) {
+		Enumeration<String>  names =  request.getParameterNames();
+		while(names.hasMoreElements()) {
+			System.out.println(names.nextElement());
+		}
+		
 	}
 }

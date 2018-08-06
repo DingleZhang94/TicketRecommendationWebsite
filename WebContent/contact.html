@@ -5,23 +5,43 @@
     <meta charset="utf-8">
     <title>Contact me</title>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,70" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+        crossorigin="anonymous">
     <link rel="stylesheet" href="./styles/contact.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,700|Slabo+27px" rel="stylesheet">
+    <link rel="stylesheet" href="./styles/modal.css">
 </head>
 
 <body>
     <header class="top-header">
         <nav class="top-nav">
             <a href="./index.html">Home</a>
-            <a href="#">Contact</a>
-            <a href="#">About</a>
+            <a href="">Contact</a>
+            <a href="./about.html">About</a>
         </nav>
-        <span id="welcome-msg">Welcome! <strong>Dingle Zhang</strong></span>
+        <div id="welcome-msg">Welcome!
+            <strong>
+                <span id="login">Please log in</span>
+            </strong>
+        </div>
         <i class="avatar fa fa-user fa-2px"></i>
     </header>
     <section class="container">
         <div id="card">
-            
+            <div class="name">Dingle Zhang</div>
+            <div class="flex">
+                <div class="element">
+                    <i class="fas fa-phone-square"></i>
+                    202-709-0390
+                    <br>
+                    <i class="fas fa-envelope"></i>
+                    dingle.zhang@gmail.com
+                    <br>
+                    <i class="fab fa-github-square"></i>
+                    https://github.com/DingleZhang94
+                </div>
+
+            </div>
         </div>
     </section>
     <footer class="footer">
@@ -29,19 +49,100 @@
         <p>"Help you find the best place around."</p>
         <ul>
             <li>
-                <p><i class="fas fa-map-marker-alt fa-2x"></i></p>
-                <p>1900 S Eads St, Arlington, VA</p>
+                <p>
+                    <i class="fas fa-map-marker-alt fa-2x"></i>
+                </p>
+                <p>1111 Army Navy Drive, Arlington, VA</p>
             </li>
             <li>
-                <p><i class="fas fa-envelope fa-2x"></i></p>
+                <p>
+                    <i class="fas fa-envelope fa-2x"></i>
+                </p>
                 <p>Dingle.zhang@gmail.com</p>
             </li>
             <li>
-                <p><i class="fa fa-phone fa-2x"></i></p>
+                <p>
+                    <i class="fa fa-phone fa-2x"></i>
+                </p>
                 <p>+1 (202) 709-0390</p>
             </li>
         </ul>
     </footer>
+    <div class="modal" id="login-modal">
+        <div class="modal-content" id="register">
+            <div class="modal-header">
+                Login
+                <div class="close">&times;</div>
+            </div>
+
+            <form action="">
+                <div class="col">
+                    <div class="input-container">
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" name="username" placeholder="username" required/>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="input-container">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" placeholder="password" required/>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="input-container">
+                        <input class="submit" type="submit" value="Login">
+                    </div>
+                </div>
+                <p>
+                    or
+                    <span id="register-link">
+                        <strong>Register!</strong>
+                    </span>
+                </p>
+            </form>
+        </div>
+    </div>
+    <div class="modal" id="register-modal">
+        <div class="modal-content" id="register">
+            <div class="modal-header">
+                Register
+                <div class="close">&times;</div>
+            </div>
+            <form action="./register" method="POST">
+                <div class="col">
+                    <div class="input-container">
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" name="username" placeholder="username" required/>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="input-container">
+                        <label for="firstname">First name:</label>
+                        <input type="text" id="firstname" name="firstname" placeholder="firstname" required>
+                    </div>
+                    <div class="input-container">
+                        <label for="lastname">Last name:</label>
+                        <input type="text" id="lastname" name="lastname" placeholder="lastname" required>
+                    </div>
+
+                </div>
+                <div class="col">
+                    <div class="input-container">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" placeholder="password" required/>
+                    </div>
+                    <div class="input-container">
+                        <label for="comfirm-psw">Confirm Password</label>
+                        <input type="password" name="confirm-psw" id="confirm-psw" placeholder="comfirm" required>
+                    </div>
+                </div>
+                <div class="col">
+                    <input class="submit" type="submit" value="Comfirm">
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="./scripts/modal.js"></script>
 </body>
 
 </html>
