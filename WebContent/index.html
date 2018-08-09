@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,70" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
     <link rel="stylesheet" href="./styles/main.css" type="text/css">
+    <link rel="stylesheet" href="./styles/modal.css">
 </head>
 
 <body>
@@ -14,10 +15,16 @@
         <nav class="top-nav">
             <a href="#">Home</a>
             <a href="./contact.html">Contact</a>
-            <a href="./about.html">About</a>
         </nav>
-        <span id="welcome-msg">Welcome! <strong>Dingle Zhang</strong></span>
-        <i class="avatar fa fa-user fa-2px"></i>
+        <div class="top-title">
+            <span id="welcome-msg">Welcome! 
+                <strong>
+                    <span id="wel-username">Stranger</span>, 
+                    <span class="log-button"id="wel-login">please log in</span>
+                    <span class="log-button" id="wel-logout">log out</span>
+                </strong>
+            </span>
+        </div>
     </header>
 
     <header class="top-pic">
@@ -36,39 +43,6 @@
         </aside>
 
         <ul id="item-list">
-            <li class="item">
-                <img src="http://www.latimes.com/resizer/REEy376-ZBuWabL6FWJqQKZ4Fjk=/1400x0/arc-anglerfish-arc2-prod-tronc.s3.amazonaws.com/public/CJGWAUKQDFCQNEOWTQUMHJJZGM.jpg" alt="">
-                <div>
-                    <a class="item-name" href="#">Coldplay Concert</a>
-                    <p class="item-category">Slow Rock | Pop</p>
-                </div>
-                <p class="item-addr">699 Calderon Ave<br/>Mountain View<br/> CA</p>
-                <div class="like">
-                    <i class="fa fa-heart"></i>
-                </div>
-            </li>
-            <li class="item">
-                <img src="https://s3-media3.fl.yelpcdn.com/bphoto/EmBj4qlyQaGd9Q4oXEhEeQ/ms.jpg" alt="">
-                <div>
-                    <a class="item-name" href="#">Sichuan item</a>
-                    <p class="item-category">Vegetarian</p>
-                </div>
-                <p class="item-addr">1900 S Ead St<br/>Arlington<br/>VA</p>
-                <div class="like">
-                    <i class="fa fa-heart"></i>
-                </div>
-            </li>
-            <li class="item">
-                <img src="https://s3-media3.fl.yelpcdn.com/bphoto/EmBj4qlyQaGd9Q4oXEhEeQ/ms.jpg" alt="">
-                <div>
-                    <a class="item-name" href="#">Sichuan item</a>
-                    <p class="item-category">Vegetarian</p>
-                </div>
-                <p class="item-addr">699 Calderon Ave<br/>Mountain View<br/> CA</p>
-                <div class="like">
-                    <i class="fa fa-heart"></i>
-                </div>
-            </li>
         </ul>
     </section>
 
@@ -90,7 +64,82 @@
             </li>
         </ul>
     </footer>
-
+    <div class="modal" id="login-modal">
+            <div class="modal-content" id="register">
+                <div class="modal-header">
+                    Login
+                    <div class="close">&times;</div>
+                </div>
+    
+                <form>
+                    <div class="col">
+                        <div class="input-container">
+                            <label for="username">Username:</label>
+                            <input type="text" id="login-username" name="username" placeholder="username" required/>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="input-container">
+                            <label for="password">Password:</label>
+                            <input type="password" id="login-password" name="password" placeholder="password" required/>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="input-container">
+                            <button class="submit" id="login-submit" type="submit">Login</button>
+                        </div>
+                    </div>
+                    <p>
+                        or
+                        <span id="register-link">
+                            <strong>Register!</strong>
+                        </span>
+                    </p>
+                    <p id ="login-warning"></p>
+                </form>
+            </div>
+        </div>
+        <div class="modal" id="register-modal">
+            <div class="modal-content" id="register">
+                <div class="modal-header">
+                    Register
+                    <div class="close">&times;</div>
+                </div>
+                <form >
+                    <div class="col">
+                        <div class="input-container">
+                            <label for="username">Username:</label>
+                            <input type="text" id="reg-username" name="username" placeholder="username" required/>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="input-container">
+                            <label for="firstname">First name:</label>
+                            <input type="text" id="reg-firstname" name="firstname" placeholder="firstname" required>
+                        </div>
+                        <div class="input-container">
+                            <label for="lastname">Last name:</label>
+                            <input type="text" id="reg-lastname" name="lastname" placeholder="lastname" required>
+                        </div>
+    
+                    </div>
+                    <div class="col">
+                        <div class="input-container">
+                            <label for="password">Password:</label>
+                            <input type="password" id="reg-password" name="password" placeholder="password" required/>
+                        </div>
+                        <div class="input-container">
+                            <label for="comfirm-psw">Confirm Password</label>
+                            <input type="password" name="confirm-psw" id="reg-confirm-psw" placeholder="comfirm" required>
+                        </div>
+                    </div>
+                    <div class="col">
+                            <button class="submit" id="reg-submit">Register</button>
+                    </div>
+                    <p id ="reg-warning"></p>
+                </form>
+            </div>
+        </div>
     <script src = "./scripts/main.js"></script>
 </body>
 

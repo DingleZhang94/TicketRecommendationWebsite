@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -246,19 +247,21 @@ public class MySQLConnection implements DBConnection {
 	public String getFullname(String userId) {
 		if(conn == null) {
 			System.out.println("DB Connection failed!");
-			return null;
+			return "";
 		}
 		try {
 			String sql = "SELECT first_name, last_name FROM users WHERE user_id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, userId);
 			ResultSet resultSet = stmt.executeQuery();
-			return String.join(" ", resultSet.getString("first_name"), resultSet.getString("last_name"));
+			if(resultSet.next()) {		
+				return String.join(" ", resultSet.getString("first_name"), resultSet.getString("last_name"));
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		return null;
+		return "";
 	}
 
 	@Override
@@ -273,7 +276,12 @@ public class MySQLConnection implements DBConnection {
 			stmt.setString(1, userId);
 			stmt.setString(2, password);
 			ResultSet rs = stmt.executeQuery();
-			return  rs.getString("user_id") != null;
+			String resUser = null;
+			if (rs.next()) {
+				resUser = rs.getString("user_id");
+			}
+			System.out.println("in verifyLogin:" + resUser);
+			return resUser != null;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -282,8 +290,70 @@ public class MySQLConnection implements DBConnection {
 	}
 	
 	
+	@Override
+	public boolean verifyToken(String userId, String token) {
+		if (conn == null) {
+			System.out.println("DB Connection failed!");
+			return false;
+		}
+		System.out.printf("verify Token: userid: %s token: %s \n", userId, token);
+		try {
+			String sql = "SELECT token FROM users WHERE user_id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, userId);
+			ResultSet rs = stmt.executeQuery();
+			String dbToken = null;
+			if (rs.next()) {
+				dbToken = rs.getString("token");
+			}
+			if(dbToken == null || !token.equals(dbToken)) return false;
+			return true;
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 	
-
+	@Override
+	public String generateToken(String userId) {
+		if (conn == null) {
+			System.out.println("DB Connection failed!");
+			return null;
+		}
+		try {
+			String sql = "UPDATE users SET token = ? WHERE user_id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			String token = Long.toString(System.currentTimeMillis());
+			stmt.setString(1, token);
+			stmt.setString(2, userId);
+			stmt.execute();
+			return token;
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public void deleteToken(String userId) {
+		if (conn == null) {
+			System.out.println("DB Connection failed!");
+			return;
+		}
+		try {
+			String sql = "UPDATE users SET token = ? WHERE user_id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setNull(1, Types.VARCHAR);
+			stmt.setString(2, userId);
+			stmt.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
+	@Override
 	public int registerUser(String userId, String password, String firstName, String lastName) {
 		if (conn == null) {
 			System.out.println("DB Connection failed!");
@@ -306,7 +376,7 @@ public class MySQLConnection implements DBConnection {
 			}
 			
 			
-			sql = "INSERT INTO users VALUES (?,?,?,?)";
+			sql = "INSERT INTO users VALUES (?,?,?,?,Null)";
 			statement = conn.prepareStatement(sql);
 			statement.setString(1, userId);
 			statement.setString(2, password);

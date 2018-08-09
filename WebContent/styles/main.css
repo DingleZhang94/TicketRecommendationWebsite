@@ -19,6 +19,13 @@ body {
 }
 
 
+.log-button{
+    cursor: pointer;
+}
+
+.log-button:hover{
+    color:#333;
+}
 
 .top-header {
     width: 90%;
@@ -132,6 +139,10 @@ aside {
     color: white;
     margin: 20px;
     font-size: 15px;
+}
+
+.top-title{
+    margin-right: 10px;
 }
 
 #content-nav-icon:hover {

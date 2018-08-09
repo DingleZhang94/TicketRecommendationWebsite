@@ -2,8 +2,8 @@
     /*
         Variables
      */
-    var user_id = '1111';
-    var user_fullname = 'Dingle Zhang';
+    var user_id = null;
+    var user_fullname = null;
     var lon = -122.08;
     var lat = 37.38;
     // innitialize index page
@@ -25,7 +25,7 @@
         } else {
             // create new element if has props.
             var newEle = document.createElement(id);
-            for (var prop in props) {
+            for (var prop in props) { 
                 // when the property is valid, add it.
                 if (props.hasOwnProperty(prop)) {
                     newEle[prop] = props[prop];
@@ -107,12 +107,20 @@
 
     // innitial the web page
     function init() {
-        // set welcome message
-        var welcomeMsg = $('welcome-msg');
-        welcomeMsg.innerHTML = 'Welcome, <strong>' + user_fullname + '</strong>.';
 
-        // innit geolocation
-        initGeolocation();
+        $('login-submit').onclick = submitLog;
+        
+        $('wel-logout').onclick = logOut;
+        
+        $('wel-login').onclick = function(){
+            showLoggin();
+        }
+        $('register-link').onclick = function(){
+            showRegister();
+        }
+        
+        $('reg-submit').onclick = submitReg;
+
         $('nearby-btn').onclick = function(){
             loadNearbyItems();
         };
@@ -122,8 +130,191 @@
         $('rec-btn').onclick = function(){
             loadRecItems();
         }
-        // load nearby items
+        // show loggin button at header.
+        showLogginBtn();
 
+        initUserInfo();
+
+        toggleCloseBtn();
+        // load nearby items
+    }
+
+    function submitReg(){
+        var user_id = $('reg-username').value;
+        var password = $('reg-password').value;
+        var cmfPsw = $('reg-confirm-psw').value;
+        var firstname = $('reg-firstname').value;
+        var lastname = $('reg-lastname').value;
+        var url = './register';
+        var req = JSON.stringify({
+            username: user_id,
+            password: password,
+            confirm_psw : cmfPsw,
+            firstname: firstname,
+            lastname: lastname,
+        });
+        console.log("submit register: "+ req );
+        ajax("POST", url, req, function(res){
+            var response = JSON.parse(res);
+            var result = response['result'];
+            if(result === 'success!'){
+                hideRegister();
+                showLoggin();
+            }else{
+                showRegWarning('Duplicate username!');
+            }
+        },function(){
+            showRegWarning('Cannot connect to server!');
+        })
+    }
+
+    function submitLog(){
+        hideLogginWarning();
+        var user_id = $('login-username').value;
+        var pasword = $('login-password').value;
+        var url = './login'
+        var req = {
+            username: user_id,
+            password: pasword,
+        }
+        req = JSON.stringify(req);
+        ajax('POST', url, req, function(res){
+            console.log(res);
+            var response = JSON.parse(res);
+            var result = response['result'];
+            if(result === 'success'){
+                user_id = response['userId'];
+                user_fullname = response['fullname'];
+                setFullname();
+                hideLogginBtn();
+                hideLoggin();
+                showlogoutBtn();
+                initGeolocation();
+            }else{
+                showLogginWarning('Can not log in!');
+            }
+        },function(){
+            showLogginWarning('Can not log in!');
+        });
+    }
+
+    /**
+     * add close function to close button in modal
+     */
+    function toggleCloseBtn(){ 
+        var closes = document.getElementsByClassName('close');
+        for(var i = 0; i < closes.length; i++){
+            closes[i].addEventListener('click',function(){
+                hideLoggin();
+                hideRegister();
+            })
+        }
+    }
+    
+    function showRegWarning(msg){
+        $('reg-warning').innerHTML = msg;
+    }
+
+    function hideRegWarning(){
+        $('reg-warning').innerHTML = null;
+    }
+
+    function hidelogoutBtn(){
+        $('wel-logout').innerHTML = null;
+    }
+
+    function showlogoutBtn(){
+        $('wel-logout').innerHTML = 'log out';
+    }
+
+    function showLogginWarning(msg){
+        $('login-warning').innerHTML = msg;
+    }
+
+    function hideLogginWarning(msg){
+        $('login-warning').innerHTML = null;
+    }
+
+    function showLogginBtn(){
+        $('wel-login').innerHTML = "please log in";
+    }
+
+    function hideLogginBtn(){
+        $('wel-login').innerHTML = null;
+    }
+
+    function showLoggin(){
+        $('login-modal').style.display = "block";
+    }
+
+    function hideLoggin(){
+        $('login-modal').style.display = "none";
+    }
+
+    function showRegister(){
+        $('register-modal').style.display = "block";
+    }
+
+    function hideRegister(){
+        $('register-modal').style.display = "none";
+    }
+
+    function setFullname(){
+        $("wel-username").innerHTML = user_fullname;
+    }
+
+    function logOut(){
+        var url = './logout';
+        var req = JSON.stringify({});
+        ajax("POST", url, req,function(res){
+            var response = JSON.parse(res);
+            var result = response['result'];
+            if(result === '1'){
+                // reset full name to stranger
+                user_fullname="stranger";
+                user_id = null;
+                setFullname();
+                // enbale login button
+                showLogginBtn();
+                hidelogoutBtn();
+                initUserInfo();
+            }else{
+                showErrorMessage('fail to log out');
+            }
+        },function(){
+            console.log("can't log out with server");
+        })
+    }
+
+    /**
+     * innit Userid, user_fullname.
+     */
+    function initUserInfo(){
+        if(document.cookie.includes('username') && document.cookie.includes('token')){
+            var url = './login';
+            var req = JSON.stringify({});
+            showLoadingMessage("Waiting for log in!");
+            
+            hidelogoutBtn();
+            ajax('GET',url, req, function(res){
+                console.log("init" + res);
+                var result = JSON.parse(res);
+                if(result['result'] === 'success'){
+                    user_fullname = result['fullname'];
+                    user_id = result['userId'];
+                    setFullname();
+                    initGeolocation();
+                    hideLogginBtn();
+                    showlogoutBtn();
+                }else{
+                    showLoggin();
+                }
+            }, function(){
+                showLoggin();
+            });
+        }else{
+            showLoggin();
+        }
     }
 
     // initial the geolocation

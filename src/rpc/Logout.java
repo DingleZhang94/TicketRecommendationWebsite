@@ -13,16 +13,16 @@ import db.DBConnection;
 import db.DBConnectionFactory;
 
 /**
- * Servlet implementation class Register
+ * Servlet implementation class logout
  */
-@WebServlet(name = "register", description = "User registration", urlPatterns = { "/register" })
-public class Register extends HttpServlet {
+@WebServlet("/logout")
+public class Logout extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Register() {
+    public Logout() {
         super();
     }
 
@@ -39,30 +39,16 @@ public class Register extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		DBConnection conn = DBConnectionFactory.getConnection();
 		try {
-			JSONObject obj = RpcHelper.readJsonObject(request);
-			String userId = obj.getString("username");
-			String password = obj.getString("password");
-			String cfmPsw = obj.getString("confirm_psw");
-			String firstname =obj.getString("firstname");
-			String lastname = obj.getString("lastname");
-			System.out.println(cfmPsw);
-			RpcHelper.printRequestPara(request);
-			int res = 2;
-			if(cfmPsw != null && password!=null && cfmPsw.equals(password)) {
-				res = conn.registerUser(userId, password, firstname, lastname);
+			if(RpcHelper.verifyCookie(conn, request)){
+				String[] cookies = RpcHelper.getUserAndTokenFromCookie(request);
+				String userId = cookies[0];
+				conn.deleteToken(userId);
+				RpcHelper.writeJsonObject(response, new JSONObject().put("result", "1"));
+			}else{
+				RpcHelper.writeJsonObject(response, new JSONObject().put("result", "0"));
 			}
-			String noti = "";
-			if(res == 0 ) {
-				noti = "success!";
-			}else {
-				noti = "Unsucess!";
-			}
-			
-			RpcHelper.writeJsonObject(response, new JSONObject().put("result", noti));
-			System.out.println("Register: " + userId + " code: " + res);
 		} catch (Exception e) {
-		}finally {
-			conn.close();
+			// TODO: handle exception
 		}
 	}
 

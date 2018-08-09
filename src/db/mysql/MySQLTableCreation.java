@@ -69,6 +69,7 @@ public class MySQLTableCreation {
 					+ "password VARCHAR(255) NOT NULL,"
 					+ "first_name VARCHAR(255),"
 					+ "last_name VARCHAR(255),"
+					+ "token VARCHAR(255),"
 					+ "PRIMARY KEY (user_id)"
 					+ ");";
 			stmt.executeUpdate(sql);
@@ -86,7 +87,7 @@ public class MySQLTableCreation {
 			
 			// Step 4 Insert data
 			sql = "INSERT INTO users VALUES("
-					+ "'1111', '3229c1097c00d497a0fd282d586be050', 'John', 'Smith'"
+					+ "'1111', '3229c1097c00d497a0fd282d586be050', 'John', 'Smith', Null" 
 					+ ")";
 		
 			System.out.println("Executing query: " + sql);
@@ -94,7 +95,6 @@ public class MySQLTableCreation {
 
 			
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 	}

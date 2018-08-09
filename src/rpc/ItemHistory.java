@@ -31,7 +31,6 @@ public class ItemHistory extends HttpServlet {
 	 */
 	public ItemHistory() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -40,25 +39,26 @@ public class ItemHistory extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
 		String userId = request.getParameter("user_id");
 		JSONArray array = new JSONArray();
+		DBConnection conn = DBConnectionFactory.getConnection();
 		
-		DBConnection conn =DBConnectionFactory.getConnection();
-		
-		
-		try {
-			Set<Item> items = conn.getFavoriteItems(userId);
-			for (Item item : items) {
-				JSONObject obj= item.toJSONObject();
-				
-				// add "favorite" attribute to help front end design
-				obj.put("favorite", true);
-				array.put(obj);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}finally {
-			conn.close();
+		if (RpcHelper.verifyCookie(conn, request)) {
+			try {
+				Set<Item> items = conn.getFavoriteItems(userId);
+				for (Item item : items) {
+					JSONObject obj= item.toJSONObject();
+					
+					// add "favorite" attribute to help front end design
+					obj.put("favorite", true);
+					array.put(obj);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}finally {
+				conn.close();
+			}			
 		}
 		
 		RpcHelper.writeJsonArray(response, array);
@@ -104,7 +104,6 @@ public class ItemHistory extends HttpServlet {
 		try {
 			JSONObject input = RpcHelper.readJsonObject(request);
 			String userId = input.getString("user_id");
-
 			String item_id = input.getString("favorite");
 			List<String> itemIds = new ArrayList<>();
 			

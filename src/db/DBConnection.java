@@ -5,6 +5,14 @@ import java.util.Set;
 
 import entity.Item;
 
+/**
+ * @author dingl
+ *
+ */
+/**
+ * @author dingl
+ *
+ */
 public interface DBConnection extends AutoCloseable{
 	/**
 	 * Close the connection.
@@ -88,6 +96,31 @@ public interface DBConnection extends AutoCloseable{
 	 * @return boolean
 	 */
 	public boolean verifyLogin(String userId, String password);
+	
+	
+	
+	/**
+	 * @param userid
+	 * @return true if update, false if failed.
+	 */
+	public String generateToken(String userId);
+	
+	
+	
+	/**
+	 * Delete the token given userId.
+	 * @param userId
+	 */
+	public void deleteToken(String userId);
+	
+	
+	
+	/**
+	 * @param userId
+	 * @param cookie
+	 * @return true if validate.
+	 */
+	public boolean verifyToken(String userId, String token); 
 	
 	/**
 	 * 
