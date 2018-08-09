@@ -140,6 +140,7 @@
     }
 
     function submitReg(){
+        hideRegWarning();
         var user_id = $('reg-username').value;
         var password = $('reg-password').value;
         var cmfPsw = $('reg-confirm-psw').value;
@@ -221,10 +222,12 @@
 
     function hidelogoutBtn(){
         $('wel-logout').innerHTML = null;
+        $('wel-logout').style.display = 'none';
     }
 
     function showlogoutBtn(){
-        $('wel-logout').innerHTML = 'log out';
+        $('wel-logout').innerHTML = 'Log out';
+        $('wel-logout').style.display = 'inline-block';
     }
 
     function showLogginWarning(msg){
@@ -236,11 +239,13 @@
     }
 
     function showLogginBtn(){
-        $('wel-login').innerHTML = "please log in";
+        $('wel-login').innerHTML = "Log in";
+        $('wel-login').style.display = 'inline-block';
     }
 
     function hideLogginBtn(){
         $('wel-login').innerHTML = null;
+        $('wel-login').style.display = 'none';
     }
 
     function showLoggin(){
@@ -290,12 +295,11 @@
      * innit Userid, user_fullname.
      */
     function initUserInfo(){
+        hidelogoutBtn();
         if(document.cookie.includes('username') && document.cookie.includes('token')){
             var url = './login';
             var req = JSON.stringify({});
             showLoadingMessage("Waiting for log in!");
-            
-            hidelogoutBtn();
             ajax('GET',url, req, function(res){
                 console.log("init" + res);
                 var result = JSON.parse(res);

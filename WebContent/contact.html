@@ -19,9 +19,6 @@
             <a href="">Contact</a>
         </nav>
         <div id="welcome-msg">Welcome!
-            <strong>
-                <span id="login">Please log in</span>
-            </strong>
         </div>
         <i class="avatar fa fa-user fa-2px"></i>
     </header>
@@ -67,81 +64,6 @@
             </li>
         </ul>
     </footer>
-    <div class="modal" id="login-modal">
-        <div class="modal-content" id="register">
-            <div class="modal-header">
-                Login
-                <div class="close">&times;</div>
-            </div>
-
-            <form action="./login" method="POST">
-                <div class="col">
-                    <div class="input-container">
-                        <label for="username">Username:</label>
-                        <input type="text" id="username" name="username" placeholder="username" required/>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="input-container">
-                        <label for="password">Password:</label>
-                        <input type="password" id="password" name="password" placeholder="password" required/>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="input-container">
-                        <input class="submit" type="submit" value="Login">
-                    </div>
-                </div>
-                <p>
-                    or
-                    <span id="register-link">
-                        <strong>Register!</strong>
-                    </span>
-                </p>
-            </form>
-        </div>
-    </div>
-    <div class="modal" id="register-modal">
-        <div class="modal-content" id="register">
-            <div class="modal-header">
-                Register
-                <div class="close">&times;</div>
-            </div>
-            <form action="./register" method="POST">
-                <div class="col">
-                    <div class="input-container">
-                        <label for="username">Username:</label>
-                        <input type="text" id="username" name="username" placeholder="username" required/>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="input-container">
-                        <label for="firstname">First name:</label>
-                        <input type="text" id="firstname" name="firstname" placeholder="firstname" required>
-                    </div>
-                    <div class="input-container">
-                        <label for="lastname">Last name:</label>
-                        <input type="text" id="lastname" name="lastname" placeholder="lastname" required>
-                    </div>
-
-                </div>
-                <div class="col">
-                    <div class="input-container">
-                        <label for="password">Password:</label>
-                        <input type="password" id="password" name="password" placeholder="password" required/>
-                    </div>
-                    <div class="input-container">
-                        <label for="comfirm-psw">Confirm Password</label>
-                        <input type="password" name="confirm-psw" id="confirm-psw" placeholder="comfirm" required>
-                    </div>
-                </div>
-                <div class="col">
-                    <input class="submit" type="submit" value="Comfirm">
-                </div>
-            </form>
-        </div>
-    </div>
-    <script src="./scripts/modal.js"></script>
 </body>
 
 </html>

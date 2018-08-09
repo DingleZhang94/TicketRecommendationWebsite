@@ -21,10 +21,13 @@ body {
 
 .log-button{
     cursor: pointer;
+    background-color: rgb(70, 69, 69);
+    border-radius: 5px;
+    padding: 2px 5px;
 }
 
 .log-button:hover{
-    color:#333;
+    background-color:rgb(87, 87, 87);
 }
 
 .top-header {
