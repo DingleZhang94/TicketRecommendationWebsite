@@ -86,7 +86,7 @@ public class ItemHistory extends HttpServlet {
 			conn.setFavoriteItems(userId, itemIds);
 			
 			RpcHelper.writeJsonObject(response, new JSONObject().put("result", "Success"));
-			System.out.println("do post" + item_id);
+			//System.out.println("do post" + item_id);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -112,7 +112,7 @@ public class ItemHistory extends HttpServlet {
 			conn.unsetFavoriteItems(userId, itemIds);
 			
 			RpcHelper.writeJsonObject(response, new JSONObject().put("result", "Success"));
-			System.out.println("Do delete");
+			//System.out.println("Do delete");
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

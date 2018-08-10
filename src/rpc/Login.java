@@ -38,7 +38,7 @@ public class Login extends HttpServlet {
 		try {
 			if (RpcHelper.verifyCookie(conn, request)) {
 				String[] cookies = RpcHelper.getUserAndTokenFromCookie(request);
-				System.out.println("userid: " + cookies[0]);
+				//System.out.println("userid: " + cookies[0]);
 				res.put("userId", cookies[0]);
 				res.put("fullname", conn.getFullname(cookies[0]));
 				res.put("result", "success");
@@ -65,7 +65,7 @@ public class Login extends HttpServlet {
 			JSONObject obj = RpcHelper.readJsonObject(request);
 			String userId = obj.getString("username");
 			String password = obj.getString("password");
-			System.out.printf("username: %s ; password: %s \n", userId, password);
+			//System.out.printf("username: %s ; password: %s \n", userId, password);
 			if (conn.verifyLogin(userId, password)) {
 				String token = conn.generateToken(userId);
 				Cookie c_user = RpcHelper.getCookie("username", userId);

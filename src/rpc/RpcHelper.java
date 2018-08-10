@@ -33,7 +33,7 @@ public class RpcHelper {
 	}
 
 	public static void writeJsonArray(HttpServletResponse response, JSONArray array)throws IOException {
-		System.out.println("inside write Json Array");
+		//System.out.println("inside write Json Array");
 		PrintWriter out = response.getWriter();
 		try {
 			response.setContentType("application/json");
@@ -66,7 +66,7 @@ public class RpcHelper {
 		cookie.setMaxAge(604800);
 //		cookie.setHttpOnly(true);
 //		cookie.setSecure(true);
-		System.out.println("cookie name: " + name + "; cookie value: " + value);
+		//System.out.println("cookie name: " + name + "; cookie value: " + value);
 		return cookie;
 	}
 	

@@ -59,7 +59,7 @@ public class Register extends HttpServlet {
 			}
 			
 			RpcHelper.writeJsonObject(response, new JSONObject().put("result", noti));
-			System.out.println("Register: " + userId + " code: " + res);
+			//System.out.println("Register: " + userId + " code: " + res);
 		} catch (Exception e) {
 		}finally {
 			conn.close();

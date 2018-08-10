@@ -1,7 +1,7 @@
-(function() {
+
     /*
-        Variables
-     */
+	 * Variables
+	 */
     var user_id = null;
     var user_fullname = null;
     var lon = -122.08;
@@ -9,15 +9,17 @@
     // innitialize index page
     init();
 
-    //Helper function: $(), ajax() ----------------------------------
+    // Helper function: $(), ajax() ----------------------------------
 
     /**
-     *DOM Helper function:
-     * select and create element
-     * @param id - String, element id to be created or selected
-     * @param props - JsonObject, create element with property
-     * @return DOM element
-     */
+	 * DOM Helper function: select and create element
+	 * 
+	 * @param id -
+	 *            String, element id to be created or selected
+	 * @param props -
+	 *            JsonObject, create element with property
+	 * @return DOM element
+	 */
     function $(id, props) {
         // select element without props.
         if (!props) {
@@ -36,33 +38,41 @@
     }
 
     /**
-     * Ajax helper function
-     * @param method - GET/POST/DELETE/PUT
-     * @param url - API end point
-     * @param success - callback when success
-     * @param fail - callback when fail
-     */
+	 * Ajax helper function
+	 * 
+	 * @param method -
+	 *            GET/POST/DELETE/PUT
+	 * @param url -
+	 *            API end point
+	 * @param success -
+	 *            callback when success
+	 * @param fail -
+	 *            callback when fail
+	 */
     function ajax(method, url, data, success, fail) {
         var xhr = new XMLHttpRequest();
 
-        xhr.open(method, url, true);
 
         // request is loading
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                success(xhr.responseText);
-            } else if (xhr.status === 403) {
-                onSessionInvalid();
-            } else {
-                fail();
-            }
+       xhr.onload = function(){
+                
+	            if (xhr.status === 200) {
+	                success(xhr.responseText);
+	            } else if (xhr.status === 403) {
+	                onSessionInvalid();
+	            } else {
+	                fail();
+	            }
         }
+ 
+        
         // request error
         xhr.onerror = function() {
             console.error('The request couldn\'t be completed');
             fail();
         }
 
+        xhr.open(method, url, true);
         // send XMLHttpRequest
         if (data === null) {
             xhr.send();
@@ -94,7 +104,7 @@
     function activeBtn(btnId) {
         var btns = document.getElementsByClassName('content-nav-btn');
 
-        //deactivate all button
+        // deactivate all button
         for (var i = 0; i < btns.length; i++) {
             btns[i].className = btns[i].className.replace(/\bactive\b/, '');
         }
@@ -103,14 +113,18 @@
         var btn = $(btnId);
         btn.className += ' active';
     }
-    //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
 
     // innitial the web page
     function init() {
-
-        $('login-submit').onclick = submitLog;
+    	initUserInfo();
+    	
+    	showLogginBtn();
+    	    	
+    	toggleCloseBtn();
+        $('login-submit').onclick = function(){submitLog();};
         
-        $('wel-logout').onclick = logOut;
+        $('wel-logout').onclick = function(){logOut()};
         
         $('wel-login').onclick = function(){
             showLoggin();
@@ -119,7 +133,7 @@
             showRegister();
         }
         
-        $('reg-submit').onclick = submitReg;
+        $('reg-submit').onclick = function(){submitReg()};
 
         $('nearby-btn').onclick = function(){
             loadNearbyItems();
@@ -131,11 +145,6 @@
             loadRecItems();
         }
         // show loggin button at header.
-        showLogginBtn();
-
-        initUserInfo();
-
-        toggleCloseBtn();
         // load nearby items
     }
 
@@ -154,7 +163,6 @@
             firstname: firstname,
             lastname: lastname,
         });
-        console.log("submit register: "+ req );
         ajax("POST", url, req, function(res){
             var response = JSON.parse(res);
             var result = response['result'];
@@ -178,9 +186,8 @@
             username: user_id,
             password: pasword,
         }
-        req = JSON.stringify(req);
-        ajax('POST', url, req, function(res){
-            console.log(res);
+        var jsreq = JSON.stringify(req);
+        ajax('POST', url, jsreq, function(res){
             var response = JSON.parse(res);
             var result = response['result'];
             if(result === 'success'){
@@ -190,7 +197,7 @@
                 hideLogginBtn();
                 hideLoggin();
                 showlogoutBtn();
-                initGeolocation();
+                initUserInfo();
             }else{
                 showLogginWarning('Can not log in!');
             }
@@ -200,8 +207,8 @@
     }
 
     /**
-     * add close function to close button in modal
-     */
+	 * add close function to close button in modal
+	 */
     function toggleCloseBtn(){ 
         var closes = document.getElementsByClassName('close');
         for(var i = 0; i < closes.length; i++){
@@ -282,6 +289,7 @@
                 // enbale login button
                 showLogginBtn();
                 hidelogoutBtn();
+                showWarningMessage('Waiting for login');
                 initUserInfo();
             }else{
                 showErrorMessage('fail to log out');
@@ -292,16 +300,15 @@
     }
 
     /**
-     * innit Userid, user_fullname.
-     */
+	 * innit Userid, user_fullname.
+	 */
     function initUserInfo(){
         hidelogoutBtn();
         if(document.cookie.includes('username') && document.cookie.includes('token')){
             var url = './login';
-            var req = JSON.stringify({});
+            var req = null;
             showLoadingMessage("Waiting for log in!");
             ajax('GET',url, req, function(res){
-                console.log("init" + res);
                 var result = JSON.parse(res);
                 if(result['result'] === 'success'){
                     user_fullname = result['fullname'];
@@ -345,14 +352,14 @@
         geoLoactionFromIP();
     }
 
-    //Get geolocation from inspect
+    // Get geolocation from inspect
     function geoLoactionFromIP() {
         var url = 'http://ipinfo.io/json';
         var req = null;
         ajax('GET', url, req, function(res) {
             var result = JSON.parse(res);
             if (result.loc) {
-                //success update loaction by ip
+                // success update loaction by ip
                 var loc = result.loc.split(",");
                 lat = loc[0];
                 lon = loc[1];
@@ -437,9 +444,11 @@
 
 
     /**
-     * list items into item list
-     * @param {[JSONArray]} items [items that need to be added into list]
-     */
+	 * list items into item list
+	 * 
+	 * @param {[JSONArray]}
+	 *            items [items that need to be added into list]
+	 */
     function listitems(items){
         var itemList = $('item-list');
         // clear the list
@@ -451,10 +460,13 @@
     }
 
     /**
-     * add a single item to itemlist
-     * @param {[DOM element]} itemList [list that item need to add in ]
-     * @param {[JSONObject]} item     [single item]
-     */
+	 * add a single item to itemlist
+	 * 
+	 * @param {[DOM
+	 *            element]} itemList [list that item need to add in ]
+	 * @param {[JSONObject]}
+	 *            item [single item]
+	 */
     function addItem(itemList, item){
         var item_id = item.item_id;
 
@@ -494,8 +506,8 @@
         });
 
         // for(let i = 0; i< item.rating; i++){
-        //     var star = $('i',{className: 'fa fa-star'});
-        //     stars.appendChild(star);
+        // var star = $('i',{className: 'fa fa-star'});
+        // stars.appendChild(star);
         // }
 
         // address
@@ -530,7 +542,7 @@
     }
 
     function changeFavoriteItem(item_id){
-        console.log(changeFavoriteItem);
+             
         var li = $('item-' + item_id);
         var favIcon = $('fav-icon-' + item_id);
         // The request parameters
@@ -552,5 +564,3 @@
         });
     }
 
-
-})();

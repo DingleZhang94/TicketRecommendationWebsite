@@ -296,7 +296,7 @@ public class MySQLConnection implements DBConnection {
 			System.out.println("DB Connection failed!");
 			return false;
 		}
-		System.out.printf("verify Token: userid: %s token: %s \n", userId, token);
+		//System.out.printf("verify Token: userid: %s token: %s \n", userId, token);
 		try {
 			String sql = "SELECT token FROM users WHERE user_id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);

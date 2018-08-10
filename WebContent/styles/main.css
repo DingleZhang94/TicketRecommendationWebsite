@@ -8,6 +8,10 @@ ul {
     list-style: none;
 }
 
+a{
+    cursor: pointer;
+}
+
 body {
     background-color: #3d3d3d;
     color: white;
@@ -262,6 +266,7 @@ aside {
 .like {
     padding: 0px 15px;
     width: 25px;
+    cursor: pointer;
 }
 
 .like:hover {
