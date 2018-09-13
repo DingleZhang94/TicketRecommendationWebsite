@@ -9,7 +9,6 @@ public class DBConnectionFactory {
 	public static DBConnection getConnection(String db) {
 		switch(db) {
 		case "mysql":
-			
 			return new MySQLConnection();
 		case "mongodb":
 			return null;
